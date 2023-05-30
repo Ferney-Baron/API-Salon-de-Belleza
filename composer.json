@@ -1,0 +1,19 @@
+{
+    "name": "david/api",
+    "description": "API FOR BEAUTY SALON",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\" : "./",
+            "Controller\\" : "./controllers",
+            "Model\\" : "./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ferney",
+            "email": "ferneydvbaron@gmail.com"
+        }
+    ],
+    "require": {}
+}

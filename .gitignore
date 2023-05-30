@@ -1,0 +1,47 @@
+# Archivos de configuración
+/config.php
+.env
+
+# Dependencias y directorios generados por Composer
+/vendor/
+/composer.lock
+
+# Dependencias y directorios generados por NPM o Yarn
+/node_modules/
+/yarn.lock
+/package-lock.json
+
+# Archivos de logs
+/log/
+*.log
+
+# Archivos de respaldo y temporales
+*.bak
+*.swp
+*.tmp
+
+# Directorio de carga de archivos
+/uploads/
+
+# Archivos de caché
+/cache/
+
+# Archivos de sesión
+/sessions/
+
+# Directorio de compilación
+/build/
+
+# Archivos de IDE o editores de código
+.vscode/
+.idea/
+
+# Archivos de prueba
+/tests/
+/phpunit.xml
+
+# Archivos de configuración de servidor web específicos (ej: Apache)
+.htaccess
+/public/.htaccess
+
+# Otros archivos
