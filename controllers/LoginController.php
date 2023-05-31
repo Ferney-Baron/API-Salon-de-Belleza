@@ -3,6 +3,7 @@
 namespace Controller;
 
 use Model\User;
+use Classes\Email;
 
 class LoginController {
     public static function login() {
@@ -15,10 +16,10 @@ class LoginController {
 
         if ( $usuarioRegistrado->num_rows ) {
             $objeto = json_decode(json_encode($usuarioRegistrado->fetch_assoc()));
-            $password = $objeto->password;
             
-            $validar = $usuario->validarPassword($password);
+            $validar = $usuario->validarPassword($objeto->password);
 
+            // debug($validar);
             // if ( $validar )
             $res[]['usuario'] = true;
             $res[]['password'] = true;
@@ -37,7 +38,11 @@ class LoginController {
         $usuario = new User($_POST);
         
         if (!$usuario->buscarUsuario()->num_rows) {
-            $usuario->crear($_POST);
+            $usuario->crearToken();
+            $usuario->hashPassword($usuario->password);            
+            $email = new Email;    
+            $email->enviarConfirmacion();
+            // $usuario->crear($usuario);
             echo 'User registration';
         } else {
             echo 'Usuario ya Registrado';

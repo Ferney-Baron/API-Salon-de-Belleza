@@ -5,7 +5,7 @@ namespace Model;
 class User extends ActiveRecord {
 
     protected static $tabla = "usuarios";
-    protected static $columnasDB = ['id', 'nombre', 'apellido', 'telefono', 'email', 'password'];
+    protected static $columnasDB = ['id', 'nombre', 'apellido', 'telefono', 'email', 'password', 'admin', 'confirmado', 'token'];
 
     public $id;
     public $nombre;
@@ -13,6 +13,9 @@ class User extends ActiveRecord {
     public $telefono;
     public $email;
     public $password;
+    public $admin;
+    public $confirmado;
+    public $token;
 
     public function __construct($args = []) {
         
@@ -22,6 +25,9 @@ class User extends ActiveRecord {
         $this->telefono = $args['telefono'] ?? '';
         $this->email = $args['email'] ?? '';
         $this->password = $args['password'] ?? '';
+        $this->admin = $args['admin'] ?? '';
+        $this->confirmado = $args['confirmado'] ?? '';
+        $this->token = $args['token'] ?? '';
     }
 
     public function buscarUsuario() {
@@ -30,12 +36,18 @@ class User extends ActiveRecord {
         return $res;
     }
 
-    public function crearUsuario() {
-        // $query = "INSERT INTO ". $this->tabla . 
+    public function crearToken() {
+        $this->token = uniqid();
+        $this->confirmado = 0;
+        $this->admin = 0;
     }
 
+    public function hashPassword($password) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $this->password = $hash;
+    }
     public function validarPassword($password) {
-        $validar = password_verify($password, $this->password);
+        $validar = password_verify($this->password, $password);
         return $validar;
     }
 }
