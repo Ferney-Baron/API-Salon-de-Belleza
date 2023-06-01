@@ -16,6 +16,7 @@ class Email {
     public function enviarConfirmacion() {
         // $mail = new PHPMailer();
 
+        $res = true;
         try {
             $phpmailer = new PHPMailer();
             $phpmailer->isSMTP();
@@ -44,10 +45,13 @@ class Email {
             $phpmailer->AltBody = 'This is the body in plain text for non-HTML phpmailer clients';
 
             $phpmailer->send();
-            echo 'Message has been sent';
+            // echo 'Message has been sent';
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
+            // echo "Message could not be sent. Mailer Error: {$phpmailer->ErrorInfo}";
+            $res = false;
         }
+
+        return $res;
     }
 
 

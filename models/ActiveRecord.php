@@ -8,9 +8,18 @@ class ActiveRecord {
     protected static $tabla = '';
     protected static $columnasDB = [];
 
+    protected static $alertas = [];
+
 
     public static function setDB( $db ) {
         self::$db = $db;
+    }
+
+    public static function setAlertas($tipo, $mensaje) {
+        static::$alertas[$tipo] = $mensaje;
+    }
+    public static function getAlertas() {
+        return static::$alertas;
     }
 
 

@@ -46,6 +46,17 @@ class User extends ActiveRecord {
         $hash = password_hash($password, PASSWORD_DEFAULT);
         $this->password = $hash;
     }
+
+    public function validarEmail() {
+        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            static::setAlertas("error", "Email invalido");
+        }
+
+        return static::getAlertas();
+
+    }
+
+
     public function validarPassword($password) {
         $validar = password_verify($this->password, $password);
         return $validar;

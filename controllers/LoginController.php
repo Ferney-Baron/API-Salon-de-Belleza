@@ -17,13 +17,11 @@ class LoginController {
         if ( $usuarioRegistrado->num_rows ) {
             $objeto = json_decode(json_encode($usuarioRegistrado->fetch_assoc()));
             
-            $validar = $usuario->validarPassword($objeto->password);
+            $validarPassword = $usuario->validarPassword($objeto->password);
 
-            // debug($validar);
-            // if ( $validar )
+            ($validarPassword) ? $res[]['password'] = true : $res[]['password'] = false;
+
             $res[]['usuario'] = true;
-            $res[]['password'] = true;
-            // Arreglar mas tarde
 
         } else {
             $res[]['usuario'] = false;
@@ -31,25 +29,34 @@ class LoginController {
         }
 
         echo json_encode($res);
-        // echo json_encode($_POST);
     }
 
     public static function signup() {
         $usuario = new User($_POST);
         
         if (!$usuario->buscarUsuario()->num_rows) {
-            $usuario->crearToken();
-            $usuario->hashPassword($usuario->password);            
-            $email = new Email;    
-            $email->enviarConfirmacion();
-            // $usuario->crear($usuario);
-            echo 'User registration';
-        } else {
-            echo 'Usuario ya Registrado';
-        }
-    }
+            $res[]['usuario'] = true;
+            $alertas = $usuario->validarEmail();
+            
+            if(empty($alertas)) {
+                $email = new Email; 
+                if($email->enviarConfirmacion()) {
+                    $usuario->crearToken();
+                    $usuario->hashPassword($usuario->password); 
+                    $usuario->crear($usuario);
 
-    public static function index() {
-        
+                    $res[]['alertas'] = 'Verifica La Cuenta en tu Email';
+                } else {
+                    $res[]['alertas'] = 'Error en el Servidor, Intenta de Nuevo!';
+                }
+            } else {
+                $res[]['alertas'] = $alertas;
+            }
+        } else {
+            $res[]['usuario'] = false;
+            $res[]['motivo'] = 'Usuario ya Registrado';
+        }
+
+        echo json_encode($res);
     }
 }
