@@ -25,8 +25,14 @@ class ActiveRecord {
 
     public function find($id) {
         $query = "SELECT * FROM " . static::$tabla . " WHERE id = " . $id;
-        debug($query);
         $res = self::$db->query($query);        
+        return $res;
+    }
+
+    public static function findAll() {
+        $query = "SELECT * FROM " . static::$tabla;
+        $res = self::$db->query($query);
+        return $res;
     }
 
 

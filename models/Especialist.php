@@ -5,16 +5,16 @@ namespace Model;
 class Especialist extends ActiveRecord {
 
 
-    public static function seleccionar() {
-        $estilistas = [];
+    public static $tabla = 'especialistas';
+    public static $columnasDB = ['id', 'nombre', 'apellido'];
 
-        $query = 'SELECT * FROM especialistas';
-        $res = self::$db->query($query);
-      
-        while( $row = $res->fetch_assoc()) {
-            $estilistas['especialista' . $row['id']] = $row['nombre'] . ' ' . $row['apellido'];
-        }
+    public $id;
+    public $nombre;
+    public $apellido;
 
-        return $estilistas;
+    public function __construct($arg=[]) {
+        $this->id = $arg['id'] ?? '';
+        $this->nombre = $arg['nombre'] ?? '';
+        $this->apellido = $arg['apellido'] ?? '';
     }
 }
